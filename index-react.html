@@ -6,9 +6,9 @@
     <script src="node_modules/react/dist/react.js"></script>
     <script src="node_modules/react-dom/dist/react-dom.js"></script>
     <script src="pokedex.js"></script>
-    <script src="reducer.js"></script>
     <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
 </head>
 <body>
 <script>
@@ -34,6 +34,7 @@
     <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter" />
 </div>
 <div id="reactOutput"></div>
+
 <script type="text/babel">
 
     // 1. set Reducer function to accept store.dispatch()
@@ -72,30 +73,39 @@
                 store.dispatch({ type: 'CHANGE_POKEMON_ATK', pokemonAtk: e.target.value })
             });
 
-
-    // 3. set render function
-    var render = function() {
+    // 3. dirty filter function (same as jquery code)
+    var filterPokemonByTypeAndMinAtk = function (allPokemons, filterPokemonType, filterPokemonAtk) {
         var filterPokemon = [];
         Object.keys(allPokemons).forEach(function(key) {
             var curPokemon = allPokemons[key];
-            var filterPokemonType = store.getState().pokemonType;
-            var filterPokemonAtk = store.getState().pokemonAtk;
             if ( (!filterPokemonType || curPokemon.type == filterPokemonType)
-            && (!filterPokemonAtk || curPokemon.attack >= filterPokemonAtk) ) {
+                    && (!filterPokemonAtk || curPokemon.attack >= filterPokemonAtk) ) {
                 filterPokemon.push(curPokemon);
             }
         });
+        return filterPokemon;
+    };
+
+    // 4. set render function
+    var render = function() {
+        var filterPokemonType = store.getState().pokemonType;
+        var filterPokemonAtk = store.getState().pokemonAtk;
+        var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
+
         ReactDOM.render(
-            <ul>
-                {filterPokemon.map(function(item, i) {
-                    return <li key={i}>{item.name} (Atk: {item.attack}, Defense: {item.defense})</li>
-                })}
-            </ul>,
+                <div>
+                    <div>--- Total Filter Pokemon: {filterPokemon.length} ---</div>
+                    <ul>
+                        {filterPokemon.map(function(item, i) {
+                            return <li key={i}>{item.name} (Atk: {item.attack}, Def: {item.defense})</li>
+                        })}
+                    </ul>
+                    </div>,
             document.getElementById('reactOutput')
         );
     };
 
-    // 4. subscribe render function when state changes
+    // 5. subscribe render function when state changes
     store.subscribe(render);
     render();
 

@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/chaintan17/react-jquery-compare/issues"
   },
-  "homepage": "https://github.com/chaintan17/react-jquery-compare#readme"
+  "homepage": "https://github.com/chaintan17/react-jquery-compare#readme",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  }
 }

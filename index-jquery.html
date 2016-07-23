@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Hello React!</title>
+    <title>Hello jQuery!</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
@@ -67,7 +67,7 @@
     });
 
     $("#pokemonAtkFilter").on('keyup', function(){
-        var filterPokemonAtk = $this.value;
+        var filterPokemonAtk = this.value;
         var filterPokemonType = $("#pokemonTypeFilter").value;
         var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
         renderPokemonList(filterPokemon);

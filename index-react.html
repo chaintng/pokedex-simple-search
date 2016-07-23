@@ -96,7 +96,7 @@
                     <div>--- Total Filter Pokemon: {filterPokemon.length} ---</div>
                     <ul>
                         {filterPokemon.map(function(item, i) {
-                            return <PokemonInfo pokemonDetail={item} />
+                            return <li key={i}>{item.name} (Atk: {item.attack}, Def: {item.defense})</li>
                         })}
                     </ul>
                 </div>,

@@ -61,14 +61,14 @@
     // 1. set Listener for each filter
     $("#pokemonTypeFilter").on('change', function(){
         var filterPokemonType = this.value;
-        var filterPokemonAtk = $("#pokemonAtkFilter").value;
+        var filterPokemonAtk = $("#pokemonAtkFilter").val();
         var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
         renderPokemonList(filterPokemon);
     });
 
     $("#pokemonAtkFilter").on('keyup', function(){
         var filterPokemonAtk = this.value;
-        var filterPokemonType = $("#pokemonTypeFilter").value;
+        var filterPokemonType = $("#pokemonTypeFilter").val();
         var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
         renderPokemonList(filterPokemon);
     });

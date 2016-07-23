@@ -5,16 +5,100 @@
     <title>Hello React!</title>
     <script src="node_modules/react/dist/react.js"></script>
     <script src="node_modules/react-dom/dist/react-dom.js"></script>
-    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="pokedex.js"></script>
+    <script src="reducer.js"></script>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 </head>
 <body>
-<div id="example"></div>
+<script>
+</script>
+<div id="filterBar">
+    <label>Select Pokemon Type: </label>
+    <select name="type" id="pokemonTypeFilter">
+        <option value="">- ALL -</option>
+        <option value="grass">grass</option>
+        <option value="fire">fire</option>
+        <option value="water">water</option>
+        <option value="bug">bug</option>
+        <option value="normal">normal</option>
+        <option value="poison">poison</option>
+        <option value="electric">electric</option>
+        <option value="ground">ground</option>
+        <option value="psychic">psychic</option>
+        <option value="rock">rock</option>
+        <option value="ghost">ghost</option>
+        <option value="ice">ice</option>
+        <option value="dragon">dragon</option>
+    </select>
+    <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter" />
+</div>
+<div id="reactOutput"></div>
 <script type="text/babel">
-    ReactDOM.render(
-            <h1>Hello, world!</h1>,
-            document.getElementById('example')
-    );
+
+    // 1. set Reducer function to accept store.dispatch()
+    var reducer = function (state, action) {
+        var newState = state;
+        if (typeof state === 'undefined') {
+            return {
+                pokemonType: null,
+                pokemonAtk: null
+            };
+        }
+        switch (action.type) {
+            case 'CHANGE_POKEMON_TYPE':
+                newState.pokemonType = action.pokemonType;
+                return newState;
+            case 'CHANGE_POKEMON_ATK':
+                newState.pokemonAtk = (action.pokemonAtk && action.pokemonAtk.length > 0) ? action.pokemonAtk : null;
+                return newState;
+            default:
+                return null;
+        }
+    };
+
+    var store = Redux.createStore(reducer);
+
+    // 2. set Listener to dispatch such event
+    document.getElementById('pokemonTypeFilter')
+            .addEventListener('change', function (e) {
+                console.log(e.target.value);
+                store.dispatch({ type: 'CHANGE_POKEMON_TYPE', pokemonType: e.target.value })
+            });
+
+    document.getElementById('pokemonAtkFilter')
+            .addEventListener('keyup', function (e) {
+                console.log(e.target.value);
+                store.dispatch({ type: 'CHANGE_POKEMON_ATK', pokemonAtk: e.target.value })
+            });
+
+
+    // 3. set render function
+    var render = function() {
+        var filterPokemon = [];
+        Object.keys(allPokemons).forEach(function(key) {
+            var curPokemon = allPokemons[key];
+            var filterPokemonType = store.getState().pokemonType;
+            var filterPokemonAtk = store.getState().pokemonAtk;
+            if ( (!filterPokemonType || curPokemon.type == filterPokemonType)
+            && (!filterPokemonAtk || curPokemon.attack >= filterPokemonAtk) ) {
+                filterPokemon.push(curPokemon);
+            }
+        });
+        ReactDOM.render(
+            <ul>
+                {filterPokemon.map(function(item, i) {
+                    return <li key={i}>{item.name} (Atk: {item.attack}, Defense: {item.defense})</li>
+                })}
+            </ul>,
+            document.getElementById('reactOutput')
+        );
+    };
+
+    // 4. subscribe render function when state changes
+    store.subscribe(render);
+    render();
+
 </script>
 </body>
 </html>

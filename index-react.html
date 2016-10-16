@@ -52,10 +52,42 @@
     });
 
     var Pokedex = React.createClass({
+        getInitialState: function() {
+            // 1) Setup initial state
+            return {
+                filterPokemonType: null,
+                filterPokemonAtk: null,
+            };
+        },
+        filterPokemonByTypeAndMinAtk: function (allPokemons, filterPokemonType, filterPokemonAtk) {
+            var filterPokemon = [];
+            Object.keys(allPokemons).forEach(function (key) {
+                var curPokemon = allPokemons[key];
+                if ((!filterPokemonType || curPokemon.type == filterPokemonType)
+                        && (!filterPokemonAtk || curPokemon.attack >= filterPokemonAtk)) {
+                    filterPokemon.push(curPokemon);
+                }
+            });
+            return filterPokemon;
+        },
+
+        onFilterPokemonTypeChange: function(e) {
+            // 2) function for setting new state value of filterPokemonType
+            this.setState({ filterPokemonType: e.target.value })
+        },
+        onFilterPokemonAtkChange: function(e) {
+            // 2) function for setting new state value of filterPokemonAtk
+            this.setState({ filterPokemonAtk: e.target.value })
+        },
         render: function() {
+            // 3) Before re-render, it should recalculate filterPokemon from new state value
+            var filterPokemon = this.filterPokemonByTypeAndMinAtk(allPokemons, this.state.filterPokemonType, this.state.filterPokemonAtk);
             return (<div>
-                <Filter />
-                <Result />
+                <Filter
+                        onFilterPokemonAtkChange={this.onFilterPokemonAtkChange} {/* 4) Pass onChange function via property */}
+                        onFilterPokemonTypeChange={this.onFilterPokemonTypeChange}
+                />
+                <Result filterPokemon={filterPokemon} /> {/* 5) Pass filtered pokemon via property */}
             </div>);
         }
     });

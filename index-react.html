@@ -27,10 +27,14 @@
     });
 
     var Filter = React.createClass({
+        propTypes: { // 1) assign expected parameter type
+            onFilterPokemonAtkChange: React.PropTypes.func,
+            onFilterPokemonTypeChange: React.PropTypes.func,
+        },
         render: function() {
             return (<div id="filterBar">
                 <label>Select Pokemon Type: </label>
-                <select name="type" id="pokemonTypeFilter">
+                <select name="type" id="pokemonTypeFilter" onChange={this.props.onFilterPokemonTypeChange}> {/* 2) assign event listener function for pokemon filter */}
                     <option value="">- ALL -</option>
                     <option value="grass">grass</option>
                     <option value="fire">fire</option>
@@ -46,7 +50,7 @@
                     <option value="ice">ice</option>
                     <option value="dragon">dragon</option>
                 </select>
-                <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter"/>
+                <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter" onChange={this.props.onFilterPokemonAtkChange} /> {/* 2) assign event listener function for pokemon atk */}
             </div>);
         },
     });

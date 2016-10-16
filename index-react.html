@@ -16,11 +16,16 @@
 
 <script type="text/babel">
     var Result = React.createClass({
+        propTypes: {
+            filterPokemon: React.PropTypes.array,
+        },
         render: function() {
             return (<div>
-                <div>--- Total Filter Pokemon: {/* TODO ADD Pokemon Length */} ---</div>
+                <div>--- Total Filter Pokemon: {this.props.filterPokemon.length} ---</div>
                 <ul>
-                    <li></li> {/* TODO code how to display pokemon */}
+                    {this.props.filterPokemon.map(function (item, i) {
+                        return <li key={i}>{item.name} (Atk: {item.attack}, Def: {item.defense})</li>
+                    })}
                 </ul>
             </div>);
         }

@@ -1,0 +1,24 @@
+{
+  "name": "react-jquery-compare",
+  "version": "1.0.0",
+  "description": "This is the code from [this blog post](https://tortaetoktak.com/react-%E0%B8%AB%E0%B8%A3%E0%B8%B7%E0%B8%AD-jquery-%E0%B8%81%E0%B8%B2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%94%E0%B8%B9%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%8A%E0%B8%B1%E0%B8%94%E0%B9%86-%E0%B9%83%E0%B8%84%E0%B8%A3%E0%B8%84%E0%B8%A5%E0%B8%B5%E0%B8%99%E0%B8%81%E0%B8%A7%E0%B9%88%E0%B8%B2)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaintan17/react-jquery-compare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaintan17/react-jquery-compare/issues"
+  },
+  "homepage": "https://github.com/chaintan17/react-jquery-compare#readme",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  }
+}

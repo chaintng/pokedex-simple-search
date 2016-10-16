@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello jQuery!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://npmcdn.com/redux@latest/dist/redux.min.js"></script>
+    <script src="pokedex.js"></script>
+</head>
+<body>
+<script>
+</script>
+<div id="filterBar">
+    <label>Select Pokemon Type: </label>
+    <select name="type" id="pokemonTypeFilter">
+        <option value="">- ALL -</option>
+        <option value="grass">grass</option>
+        <option value="fire">fire</option>
+        <option value="water">water</option>
+        <option value="bug">bug</option>
+        <option value="normal">normal</option>
+        <option value="poison">poison</option>
+        <option value="electric">electric</option>
+        <option value="ground">ground</option>
+        <option value="psychic">psychic</option>
+        <option value="rock">rock</option>
+        <option value="ghost">ghost</option>
+        <option value="ice">ice</option>
+        <option value="dragon">dragon</option>
+    </select>
+    <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter" />
+
+
+    <div>
+        <div>--- Total Filter Pokemon: <span id="filterPokemonCount"></span> ---</div>
+        <ul id="pokemonListUl">
+        </ul>
+    </div>
+
+</div>
+<div id="reactOutput"></div>
+
+<script type="text/babel">
+
+    // 0. dirty filter function (same as react code)
+    var filterPokemonByTypeAndMinAtk = function (allPokemons, filterPokemonType, filterPokemonAtk) {
+        var filterPokemon = [];
+        Object.keys(allPokemons).forEach(function(key) {
+            var curPokemon = allPokemons[key];
+            if ( (!filterPokemonType || curPokemon.type == filterPokemonType)
+                    && (!filterPokemonAtk || curPokemon.attack >= filterPokemonAtk) ) {
+                filterPokemon.push(curPokemon);
+            }
+        });
+        return filterPokemon;
+    }
+
+    // 1. set Listener for each filter
+    $("#pokemonTypeFilter").on('change', function(){
+        var filterPokemonType = this.value;
+        var filterPokemonAtk = $("#pokemonAtkFilter").val();
+        var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
+        renderPokemonList(filterPokemon);
+    });
+
+    $("#pokemonAtkFilter").on('keyup', function(){
+        var filterPokemonAtk = this.value;
+        var filterPokemonType = $("#pokemonTypeFilter").val();
+        var filterPokemon = filterPokemonByTypeAndMinAtk(allPokemons, filterPokemonType, filterPokemonAtk);
+        renderPokemonList(filterPokemon);
+    });
+
+    // 2. set render function
+    var renderPokemonList = function(filterPokemon) {
+        $("#filterPokemonCount").html(filterPokemon.length);
+        var liStrings = filterPokemon.map(function (item) {
+
+           return "<li>" + item.name + " (Atk: " + item.attack + ", Def: " + item.defense + ")</li>";
+        });
+        $("#pokemonListUl").html(liStrings);
+    }
+
+
+    // 3. initial render all pokemon first time
+    renderPokemonList(filterPokemonByTypeAndMinAtk(allPokemons));
+
+</script>
+</body>
+</html>

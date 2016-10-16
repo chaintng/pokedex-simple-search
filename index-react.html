@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="pokedex.js"></script>
+</head>
+<body>
+<script>
+</script>
+<div id="reactOutput"></div>
+
+<script type="text/babel">
+    var Result = React.createClass({
+        render: function() {
+            return (<div>
+                <div>--- Total Filter Pokemon: {/* TODO ADD Pokemon Length */} ---</div>
+                <ul>
+                    <li></li> {/* TODO code how to display pokemon */}
+                </ul>
+            </div>);
+        }
+    });
+
+    var Filter = React.createClass({
+        render: function() {
+            return (<div id="filterBar">
+                <label>Select Pokemon Type: </label>
+                <select name="type" id="pokemonTypeFilter">
+                    <option value="">- ALL -</option>
+                    <option value="grass">grass</option>
+                    <option value="fire">fire</option>
+                    <option value="water">water</option>
+                    <option value="bug">bug</option>
+                    <option value="normal">normal</option>
+                    <option value="poison">poison</option>
+                    <option value="electric">electric</option>
+                    <option value="ground">ground</option>
+                    <option value="psychic">psychic</option>
+                    <option value="rock">rock</option>
+                    <option value="ghost">ghost</option>
+                    <option value="ice">ice</option>
+                    <option value="dragon">dragon</option>
+                </select>
+                <label>Input Minimum Attack: </label><input type="text" id="pokemonAtkFilter"/>
+            </div>);
+        },
+    });
+
+    var Pokedex = React.createClass({
+        render: function() {
+            return (<div>
+                <Filter />
+                <Result />
+            </div>);
+        }
+    });
+
+
+    ReactDOM.render(<Pokedex />, document.getElementById('reactOutput'));
+</script>
+</body>
+</html>
